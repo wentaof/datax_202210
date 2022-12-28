@@ -1,0 +1,134 @@
+{
+  "job": {
+    "setting": {
+      "speed": {
+        "channel": 3,
+        "byte": 1048576
+      },
+      "errorLimit": {
+        "record": 0,
+        "percentage": 0.02
+      }
+    },
+    "content": [
+      {
+        "reader": {
+          "name": "mysqlreader",
+          "parameter": {
+            "password": "123456",
+            "username": "root",
+            "splitPk": "",
+            "connection": [
+              {
+                "querySql": [
+                  "select id,customer_id,name,gender,ristel,creat_time,sales_id,is_customer,identity,external_user_id,wechat_nickname,sales_stage,sales_stage_name,qw_sales_id,sales_name,qw_remark,area_id,area_value,first_connect_time,synctime from scrm_customerinfo limit 10000"
+                ],
+                "jdbcUrl": [
+                  "jdbc:mysql://192.168.7.136:3306/hsbc?useSSL=false&characterEncoding=utf-8"
+                ]
+              }
+            ]
+          }
+        },
+        "writer": {
+          "name": "hivewriter",
+          "parameter": {
+            "print":true,
+            "username": "hadoop",
+            "password": "hadoop",
+            "defaultFS": "hdfs://192.168.8.61:8020",
+            "hiveJdbcUrl": "jdbc:hive2://192.168.8.63:10001/default",
+            "databaseName": "fengwentao",
+            "tableName": "ods_scrm_customerinfo_scrm_mysql_his",
+            "writeMode": "overwrite",
+            "tmpDatabase":"fengwentao",
+            "tmpDatabasePath":"/user/hive/warehouse/fengwentao.db/",
+            "partition": ["pt='2022-12-26'"],
+            "column": [
+              {
+                "name": "id",
+                "type": "STRING"
+              },
+              {
+                "name": "customer_id",
+                "type": "STRING"
+              },
+              {
+                "name": "name",
+                "type": "STRING"
+              },
+              {
+                "name": "gender",
+                "type": "STRING"
+              },
+              {
+                "name": "ristel",
+                "type": "STRING"
+              },
+              {
+                "name": "creat_time",
+                "type": "TIMESTAMP"
+              },
+              {
+                "name": "sales_id",
+                "type": "STRING"
+              },
+              {
+                "name": "is_customer",
+                "type": "STRING"
+              },
+              {
+                "name": "identity",
+                "type": "STRING"
+              },
+              {
+                "name": "external_user_id",
+                "type": "STRING"
+              },
+              {
+                "name": "wechat_nickname",
+                "type": "STRING"
+              },
+              {
+                "name": "sales_stage",
+                "type": "STRING"
+              },
+              {
+                "name": "sales_stage_name",
+                "type": "STRING"
+              },
+              {
+                "name": "qw_sales_id",
+                "type": "STRING"
+              },
+              {
+                "name": "sales_name",
+                "type": "STRING"
+              },
+              {
+                "name": "qw_remark",
+                "type": "STRING"
+              },
+              {
+                "name": "area_id",
+                "type": "STRING"
+              },
+              {
+                "name": "area_value",
+                "type": "STRING"
+              },
+              {
+                "name": "first_connect_time",
+                "type": "STRING"
+              },
+              {
+                "name": "synctime",
+                "type": "STRING"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}
