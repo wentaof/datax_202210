@@ -200,8 +200,8 @@ public class HiveWriter extends Writer {
             String hiveCmd = this.hive_sql_set + hive_presql_str + " use " + this.tmpDataBase + "; " +
                     "create table " + this.tmpTableName + "(" + columnsInfo + ") " +
                     " ROW FORMAT DELIMITED FIELDS TERMINATED BY '" + this.hive_fieldDelimiter +
-                    "' lines terminated by '"+ this.hive_lineDelimiter
-                    + "' stored as TEXTFILE ";
+//                    "' lines terminated by '"+ this.hive_lineDelimiter +
+                    "' stored as TEXTFILE ";
 
             LOG.info("创建hive临时表 ----> :" + hiveCmd);
             //执行脚本,创建临时表

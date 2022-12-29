@@ -335,7 +335,7 @@ public class HdfsHelper {
         MutablePair<Text, Boolean> transportResult = new MutablePair<Text, Boolean>();
         transportResult.setRight(false);
         if (null != transportResultList) {
-            Text recordResult = new Text(StringUtils.join(transportResultList.getLeft(), fieldDelimiter));
+            Text recordResult = new Text(StringUtils.join(transportResultList.getLeft(), fieldDelimiter).replaceAll("\r\n|\r|\n",""));
             transportResult.setRight(transportResultList.getRight());
             transportResult.setLeft(recordResult);
         }
