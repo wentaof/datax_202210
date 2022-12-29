@@ -324,11 +324,11 @@ public class HiveWriter extends Writer {
                     "drop table if exists " + tmpTableName + ";" + hive_postsql_str;//注意要删除的是临时表
             LOG.info("hiveCmd ----> :" + hiveCmd);
             //执行脚本,删除hive临时表
-//            if (!HiveServer2ConnectUtil.execHiveSql(this.username, this.password, hiveCmd, this.hiveJdbcUrl)) {
-//                throw DataXException.asDataXException(
-//                        HiveWriterErrorCode.SHELL_ERROR,
-//                        "删除hive临时表脚本执行失败");
-//            }
+            if (!HiveServer2ConnectUtil.execHiveSql(this.username, this.password, hiveCmd, this.hiveJdbcUrl)) {
+                throw DataXException.asDataXException(
+                        HiveWriterErrorCode.SHELL_ERROR,
+                        "删除hive临时表脚本执行失败");
+            }
 
 //            if (!ShellUtil.exec(new String[]{this.hive_cmd, "-e", "\"" + hiveCmd + "\""})) {
 //                throw DataXException.asDataXException(
