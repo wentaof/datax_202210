@@ -430,7 +430,7 @@ public class HdfsHelper {
 
             String type = eachColumnConf.getString(Key.TYPE);//列类型
 
-            str.append(name).append(" ").append(type);
+            str.append("`"+name+"`").append(" ").append(type);
 
             if (i != (columns.size() - 1)) {
                 str.append(",");
