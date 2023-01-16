@@ -454,7 +454,7 @@ public class HdfsHelper {
         for (int i = 0; i < columns.size(); i++) {
 
             Configuration eachColumnConf = columns.get(i);
-            String name = eachColumnConf.getString(Key.NAME).toLowerCase();
+            String name = "`"+eachColumnConf.getString(Key.NAME).toLowerCase()+"`";
             list.add(name);
         }
         return String.join(",", list);
