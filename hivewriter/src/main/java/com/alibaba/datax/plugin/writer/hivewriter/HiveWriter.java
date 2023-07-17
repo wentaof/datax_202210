@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-//import java.util.UUID;
+import java.util.UUID;
 
 //import com.alibaba.datax.common.util.KeyUtil;
 //import com.alibaba.datax.common.util.ShellUtil;
@@ -72,7 +72,6 @@ public class HiveWriter extends Writer {
                 //创建临时Hive表,指定hive表在hdfs上的存储路径
                 this.tmpPath = this.tempHdfsLocation + this.tmpTableName.toLowerCase();
                 //后面需要指定写入的文件名称
-//                String fileSuffix = UUID.randomUUID().toString().replace('-', '_');
                 String fullFileName = String.format("%s%s/%s", defaultFS, this.tmpPath, this.tmpTableName);// 临时存储的文件路径
 
                 splitedTaskConfig.set(Key.HIVE_DATABASE_TMP_LOCATION, tmpPath);
@@ -101,9 +100,11 @@ public class HiveWriter extends Writer {
         private String hiveTableName() {
             StringBuilder str = new StringBuilder();
             FastDateFormat fdf = FastDateFormat.getInstance("yyyyMMdd");
-            str.append(Constants.TEMP_TABLE_NAME_PREFIX_DEFAULT).append(fdf.format(new Date()))
-//                    .append("_").append(KeyUtil.genUniqueKey());
-                    .append("_").append(System.currentTimeMillis());
+            String table_Suffix = UUID.randomUUID().toString().replace('-', '_');
+            str.append(Constants.TEMP_TABLE_NAME_PREFIX_DEFAULT)
+                    .append(fdf.format(new Date()))
+                    .append("_").append(table_Suffix)
+            ;
             return str.toString();
         }
     }
