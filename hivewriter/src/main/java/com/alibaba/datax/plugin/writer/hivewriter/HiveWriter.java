@@ -99,12 +99,9 @@ public class HiveWriter extends Writer {
 
         private String hiveTableName() {
             StringBuilder str = new StringBuilder();
-            FastDateFormat fdf = FastDateFormat.getInstance("yyyyMMdd");
             String table_Suffix = UUID.randomUUID().toString().replace('-', '_');
             str.append(Constants.TEMP_TABLE_NAME_PREFIX_DEFAULT)
-                    .append(fdf.format(new Date()))
-                    .append("_").append(table_Suffix)
-            ;
+                    .append("_").append(table_Suffix);
             return str.toString();
         }
     }
