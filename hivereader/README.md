@@ -228,51 +228,48 @@ Hivereader插件:从Hive表读取数据
 
 - 场景三
 
-  json传入所有的可选参数，注意fieldDelimiter传入的'\001'需要写成'\\\u0001'
+  json传入所有的可选参数，注意fieldDelimiter传入的'\001'需要写成'\\\u0001',
+  - 已测通
 
-  ```json
-  {
-    "job": {
-      "setting": {
-        "speed": {
-          "channel":1
-        }
-      },
-      "content": [
-        {
-          "reader": {
-            "name": "hivereader",
-            "parameter": {
-                "hiveSql": [
-                      "select id,pay_decimal,pay_str,pay_double from stage.stage_md_test limit 10;"
-                 ],
-                "defaultFS": "hdfs://quickstart.cloudera:8020",
-  			  "tempDatabase":"stage",
-  			  "tempDatabasePath":"/user/hive/warehouse/stage.db/",
-  			  "fieldDelimiter":"\\u0001",
-                "nullFormat":"\\N",
-                "haveKerberos":"true",
-                "kerberosKeytabFilePath":"/etc/security/keytabs/xxxx_user.keytab",
-                "kerberosPrincipal":"xxxx_user@HADOOP_CLUSTER_XXXXX.COM",
-                "hadoopConfig":{
-                 "dfs.nameservices": "hadoop_cluster",
-                 "dfs.ha.namenodes.hadoop_cluster": "nn1,nn2",
-                 "dfs.namenode.rpc-address.hadoop_cluster.nn1": "IPXXXXXXX01:8020",
-                 "dfs.namenode.rpc-address.hadoop_cluster.nn2": "IPXXXXXXX02:8020",
-                 "dfs.client.failover.proxy.provider.hadoop_cluster": "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider"},
-             }
-          },
-  "writer":{"name": "streamwriter",
-            "parameter": {
-              "encoding": "UTF-8",
-              "print": true
-           
-                      }
-                  }
+    ```json
+      {
+      "job": {
+        "setting": {
+          "speed": {
+            "channel":1
           }
-      ]
+        },
+        "content": [
+          {
+            "reader": {
+              "name": "hivereader",
+              "parameter": {
+                "hiveSql": [ "select name,age from fengwentao.student;" ],
+                "username": "hadoop",
+                "password": "hadoop",
+                "defaultFS": "hdfs://hahadoop",
+                  "tempDatabase":"tmp",
+                  "tempDatabasePath":"/user/hive/warehouse/tmp.db/",
+                "nullFormat":"\\N",
+                "hiveJdbcUrl": "jdbc:hive2://192.168.192.26:10001/default",
+                "hadoopConfig": {
+                  "dfs.nameservices": "hahadoop",
+                  "dfs.ha.namenodes.hahadoop": "nn1,nn2",
+                  "dfs.namenode.rpc-address.hahadoop.nn1": "hs.med.hadoop.master1:8020",
+                  "dfs.namenode.rpc-address.hahadoop.nn2": "hs.med.hadoop.master2:8020",
+                  "dfs.client.failover.proxy.provider.hahadoop": "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider"
+                }
+            }
+            },
+             "writer": {
+                "name": "streamwriter",
+                "parameter": {
+                    "print":true
+                }
+            }
+          }
+        ]
+      }
     }
-  
-  }
-  ```
+    ```
 
