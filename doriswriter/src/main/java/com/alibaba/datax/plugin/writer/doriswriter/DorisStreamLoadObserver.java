@@ -2,7 +2,7 @@ package com.alibaba.datax.plugin.writer.doriswriter;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HttpEntity;
+import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -12,6 +12,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -150,9 +151,16 @@ public class DorisStreamLoadObserver {
         }
         throw new RuntimeException("Failed to join rows data, unsupported `format` from stream load properties:");
     }
+    private static class ContentLengthHeaderRemover implements HttpRequestInterceptor {
+        @Override
+        public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+            request.removeHeaders("Content-Length");
+        }
+    }
     private Map<String, Object> put(String loadUrl, String label, byte[] data) throws IOException {
         LOG.info(String.format("Executing stream load to: '%s', size: '%s'", loadUrl, data.length));
         final HttpClientBuilder httpClientBuilder = HttpClients.custom()
+                .addInterceptorFirst(new ContentLengthHeaderRemover())
                 .setRedirectStrategy(new DefaultRedirectStrategy () {
                     @Override
                     protected boolean isRedirectable(String method) {
