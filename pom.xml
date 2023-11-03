@@ -121,6 +121,7 @@
         <module>clickhousewriter</module>
         <module>doriswriter</module>-->
         <module>hivewriter</module>
+        <module>hivereader</module>
         <!-- common support module -->
         <module>plugin-rdbms-util</module>
         <module>plugin-unstructured-storage-util</module>
