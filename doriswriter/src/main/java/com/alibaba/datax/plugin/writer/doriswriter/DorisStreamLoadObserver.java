@@ -182,9 +182,9 @@ public class DorisStreamLoadObserver {
             httpPut.setHeader("label", label);
             httpPut.setHeader("Content-Type", "application/x-www-form-urlencoded");
             httpPut.setHeader("Authorization", getBasicAuthHeader(options.getUsername(), options.getPassword()));
-            httpPut.setEntity(new ByteArrayEntity (data));
+            httpPut.setEntity(new ByteArrayEntity (data));  //数据
             httpPut.setConfig(RequestConfig.custom().setRedirectsEnabled(true).build());
-            try ( CloseableHttpResponse resp = httpclient.execute(httpPut)) {
+            try ( CloseableHttpResponse resp = httpclient.execute(httpPut)) { // 发送put请求
                 HttpEntity respEntity = getHttpEntity(resp);
                 if (respEntity == null)
                     return null;

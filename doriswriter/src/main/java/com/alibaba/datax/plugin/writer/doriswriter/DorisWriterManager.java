@@ -70,6 +70,7 @@ public class DorisWriterManager {
     public final synchronized void writeRecord(String record) throws IOException {
         checkFlushException();
         try {
+            //record应该就是一行数据
             byte[] bts = record.getBytes(StandardCharsets.UTF_8);
             buffer.add(bts);
             batchCount++;
