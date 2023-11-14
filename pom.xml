@@ -123,7 +123,6 @@
         <module>hivereader</module>
         -->
         <module>doriswriter</module>
-
         <!-- common support module -->
         <module>plugin-rdbms-util</module>
         <module>plugin-unstructured-storage-util</module>

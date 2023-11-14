@@ -1,3 +1,20 @@
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
 package com.alibaba.datax.plugin.writer.doriswriter;
 
 import com.alibaba.fastjson.JSON;
@@ -20,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -47,6 +65,18 @@ public class DorisStreamLoadObserver {
         this.options = options;
     }
 
+    public String urlDecode(String outBuffer) {
+        String data = outBuffer;
+        try {
+            data = data.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+            data = data.replaceAll("\\+", "%2B");
+            data = URLDecoder.decode(data, "utf-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
     public void streamLoad(WriterTuple data) throws Exception {
         String host = getLoadHost();
         if(host == null){
@@ -60,6 +90,7 @@ public class DorisStreamLoadObserver {
                 .append("/_stream_load")
                 .toString();
         LOG.info("Start to join batch data: rows[{}] bytes[{}] label[{}].", data.getRows().size(), data.getBytes(), data.getLabel());
+        loadUrl = urlDecode(loadUrl);
         Map<String, Object> loadResult = put(loadUrl, data.getLabel(), addRows(data.getRows(), data.getBytes().intValue()));
         LOG.info("StreamLoad response :{}",JSON.toJSONString(loadResult));
         final String keyStatus = "Status";
@@ -125,7 +156,7 @@ public class DorisStreamLoadObserver {
     private byte[] addRows(List<byte[]> rows, int totalBytes) {
         if (Keys.StreamLoadFormat.CSV.equals(options.getStreamLoadFormat())) {
             Map<String, Object> props = (options.getLoadProps() == null ? new HashMap<> () : options.getLoadProps());
-            byte[] lineDelimiter = DelimiterParser.parse((String)props.get("row_delimiter"), "\n").getBytes(StandardCharsets.UTF_8);
+            byte[] lineDelimiter = DelimiterParser.parse((String)props.get("line_delimiter"), "\n").getBytes(StandardCharsets.UTF_8);
             ByteBuffer bos = ByteBuffer.allocate(totalBytes + rows.size() * lineDelimiter.length);
             for (byte[] row : rows) {
                 bos.put(row);
@@ -169,6 +200,8 @@ public class DorisStreamLoadObserver {
                 });
         try ( CloseableHttpClient httpclient = httpClientBuilder.build()) {
             HttpPut httpPut = new HttpPut(loadUrl);
+            httpPut.removeHeaders(HttpHeaders.CONTENT_LENGTH);
+            httpPut.removeHeaders(HttpHeaders.TRANSFER_ENCODING);
             List<String> cols = options.getColumns();
             if (null != cols && !cols.isEmpty() && Keys.StreamLoadFormat.CSV.equals(options.getStreamLoadFormat())) {
                 httpPut.setHeader("columns", String.join(",", cols.stream().map(f -> String.format("`%s`", f)).collect(Collectors.toList())));
@@ -180,11 +213,11 @@ public class DorisStreamLoadObserver {
             }
             httpPut.setHeader("Expect", "100-continue");
             httpPut.setHeader("label", label);
-            httpPut.setHeader("Content-Type", "application/x-www-form-urlencoded");
+            httpPut.setHeader("two_phase_commit", "false");
             httpPut.setHeader("Authorization", getBasicAuthHeader(options.getUsername(), options.getPassword()));
-            httpPut.setEntity(new ByteArrayEntity (data));  //数据
+            httpPut.setEntity(new ByteArrayEntity(data));
             httpPut.setConfig(RequestConfig.custom().setRedirectsEnabled(true).build());
-            try ( CloseableHttpResponse resp = httpclient.execute(httpPut)) { // 发送put请求
+            try ( CloseableHttpResponse resp = httpclient.execute(httpPut)) {
                 HttpEntity respEntity = getHttpEntity(resp);
                 if (respEntity == null)
                     return null;
