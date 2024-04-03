@@ -47,8 +47,8 @@
         <module>transformer</module>
 
         <!-- reader -->
-<!--        <module>mysqlreader</module>
-        <module>drdsreader</module>
+        <module>mysqlreader</module>
+<!--        <module>drdsreader</module>
         <module>sqlserverreader</module>
         <module>postgresqlreader</module>
         <module>kingbaseesreader</module>
@@ -122,7 +122,7 @@
         <module>hivewriter</module>
         <module>hivereader</module>
         -->
-        <module>doriswriter</module>
+<!--        <module>doriswriter</module>-->
         <!-- common support module -->
         <module>plugin-rdbms-util</module>
         <module>plugin-unstructured-storage-util</module>

@@ -391,7 +391,7 @@ public final class DBUtil {
                                                    String url, Properties prop) {
         try {
             Class.forName(dataBaseType.getDriverClassName());
-            DriverManager.setLoginTimeout(Constant.TIMEOUT_SECONDS);
+            DriverManager.setLoginTimeout(Constant.TIMEOUT_SECONDS * 20);
             return DriverManager.getConnection(url, prop);
         } catch (Exception e) {
             throw RdbmsException.asConnException(dataBaseType, e, prop.getProperty("user"), null);
