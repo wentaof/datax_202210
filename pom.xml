@@ -38,7 +38,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <mysql.driver.version>5.1.47</mysql.driver.version>
+        <mysql.driver.version>8.0.26</mysql.driver.version>
     </properties>
 
     <modules>
@@ -47,7 +47,7 @@
         <module>transformer</module>
 
         <!-- reader -->
-        <module>mysqlreader</module>
+<!--        <module>mysqlreader</module>-->
 <!--        <module>drdsreader</module>
         <module>sqlserverreader</module>
         <module>postgresqlreader</module>
@@ -81,47 +81,47 @@
         <module>starrocksreader</module>-->
 
         <!-- writer -->
-<!--        <module>mysqlwriter</module>
-        <module>starrockswriter</module>
-        <module>drdswriter</module>
-        <module>oraclewriter</module>
-        <module>sqlserverwriter</module>
-        <module>postgresqlwriter</module>
-        <module>kingbaseeswriter</module>
-        <module>adswriter</module>
-        <module>oceanbasev10writer</module>
-        <module>adbpgwriter</module>
-        <module>hologresjdbcwriter</module>
-        <module>rdbmswriter</module>
+        <module>mysqlwriter</module>
+        <!--        <module>starrockswriter</module>
+                <module>drdswriter</module>
+                <module>oraclewriter</module>
+                <module>sqlserverwriter</module>
+                <module>postgresqlwriter</module>
+                <module>kingbaseeswriter</module>
+                <module>adswriter</module>
+                <module>oceanbasev10writer</module>
+                <module>adbpgwriter</module>
+                <module>hologresjdbcwriter</module>
+                <module>rdbmswriter</module>
 
 
-        <module>odpswriter</module>
-        <module>osswriter</module>
-        <module>otswriter</module>
-        <module>hbase11xwriter</module>
-        <module>hbase094xwriter</module>
-        <module>hbase11xsqlwriter</module>
-        <module>hbase20xsqlwriter</module>
-        <module>kuduwriter</module>
-        <module>ftpwriter</module>
-        <module>hdfswriter</module>
-        <module>txtfilewriter</module>
-        <module>streamwriter</module>
+                <module>odpswriter</module>
+                <module>osswriter</module>
+                <module>otswriter</module>
+                <module>hbase11xwriter</module>
+                <module>hbase094xwriter</module>
+                <module>hbase11xsqlwriter</module>
+                <module>hbase20xsqlwriter</module>
+                <module>kuduwriter</module>
+                <module>ftpwriter</module>
+                <module>hdfswriter</module>
+                <module>txtfilewriter</module>
+                <module>streamwriter</module>
 
-        <module>elasticsearchwriter</module>
-        <module>mongodbwriter</module>
-        <module>tdenginewriter</module>
-        <module>ocswriter</module>
-        <module>tsdbwriter</module>
-        <module>gdbwriter</module>
-        <module>oscarwriter</module>
-        <module>loghubwriter</module>
-        <module>datahubwriter</module>
-        <module>cassandrawriter</module>
-        <module>clickhousewriter</module>
-        <module>hivewriter</module>
-        <module>hivereader</module>
-        -->
+                <module>elasticsearchwriter</module>
+                <module>mongodbwriter</module>
+                <module>tdenginewriter</module>
+                <module>ocswriter</module>
+                <module>tsdbwriter</module>
+                <module>gdbwriter</module>
+                <module>oscarwriter</module>
+                <module>loghubwriter</module>
+                <module>datahubwriter</module>
+                <module>cassandrawriter</module>
+                <module>clickhousewriter</module>
+                <module>hivewriter</module>
+                <module>hivereader</module>
+                -->
 <!--        <module>doriswriter</module>-->
         <!-- common support module -->
         <module>plugin-rdbms-util</module>
